@@ -20,10 +20,27 @@
                     <th>Salary</th>
                     <th>Created At</th>
                     <th>Updated At</th>
-                    <th>Update</th>
-                    <th>Delete</th>
+                    <th>Action</th>
                 </tr>
             </thead>
+            <tbody>
+                @foreach ($employees as $employee)
+                    <tr>
+                        <td>{{ $employee->id }}</td>
+                        <td>{{ $employee->name }}</td>
+                        <td>{{ $employee->gender }}</td>
+                        <td>{{ $employee->position }}</td>
+                        <td>{{ $employee->address }}</td>
+                        <td>{{ $employee->salary }}</td>
+                        <td>{{ $employee->created_at }}</td>
+                        <td>{{ $employee->updated_at }}</td>
+                        <td>
+                            <a href="/update/{{$employee->id}}" class="btn btn-warning">Update</a>
+                            <button class="btn btn-danger">Delete</button>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
           </table>
         </div>
       </div>
