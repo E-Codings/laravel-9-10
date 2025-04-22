@@ -9,3 +9,4 @@ Route::get('/addEmployee',[EmployeeController::class,'addEmployeeFrm']);
 Route::post('/createEmployee', [EmployeeController::class, 'createEmployee']);
 Route::get('/update/{id}', [EmployeeController::class,'openUpdateFrm']);
 Route::put('/updateEmployee/{id}', [EmployeeController::class, 'update']);
+Route::delete('/remove',[EmployeeController::class,'removeEmployee']);

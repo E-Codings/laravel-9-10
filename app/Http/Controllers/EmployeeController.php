@@ -69,15 +69,33 @@ class EmployeeController extends Controller
         $salary = $request->salary;
         $address = $request->address;
 
-        $employee = Employee::find($id);
-        $employee->name = $name;
-        $employee->gender = $gender;
-        $employee->position = $position;
-        $employee->salary = $salary;
-        $employee->address = $address;
+        // $employee = Employee::find($id);
+        // $employee->name = $name;
+        // $employee->gender = $gender;
+        // $employee->position = $position;
+        // $employee->salary = $salary;
+        // $employee->address = $address;
+        // $employee->save();
 
-        $employee->save();
+        Employee::where('id','=',$id)
+            ->update([
+                 'name' => $name,
+                'gender' => $gender,
+                'position' => $position,
+                'salary' => $salary,
+                'address' => $address
+            ]);
 
         return back()->with('success','Employee create success');
+    }
+
+    public function removeEmployee(Request $request){
+        // $employee = Employee::find($request->remove_id);
+        // if($employee){
+        //     $employee->delete(); //remove employee from db
+        // }
+
+        Employee::where('id',$request->remove_id)->delete();
+        return back()->with('removeSuccess', 'Employee Remove successfully');
     }
 }

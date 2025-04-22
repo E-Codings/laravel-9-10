@@ -81,7 +81,8 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="d-flex justify-content-end">
+                            <div class="d-flex justify-content-end mt-2">
+                                <a href="/" class="btn btn-primary me-2">Back</a>
                                 <button class="btn btn-success">Update</button>
                             </div>
                         </form>
