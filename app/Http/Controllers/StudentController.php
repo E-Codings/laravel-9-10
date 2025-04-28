@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class StudentController extends Controller
 {
@@ -11,7 +12,8 @@ class StudentController extends Controller
      */
     public function index()
     {
-        return view('students.index');
+        $students = DB::table('students')->select('*')->get();
+        return view('students.index', compact('students'));
     }
 
     /**
@@ -19,7 +21,7 @@ class StudentController extends Controller
      */
     public function create()
     {
-        //
+        return view('students.create');
     }
 
     /**
@@ -27,7 +29,35 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request);
+        $validate = $request->validate([
+            'first_name' => 'required|min:2|max:10',
+            'last_name' => 'required|min:2|max:10',
+            'gender' => 'required|min:4|max:6',
+            'course' => 'required',
+            'phone_number' => 'required',
+            'profile' => 'required|mimes:jpg,jpeg,png'
+        ]);
+
+        $profile = $request->file('profile');
+        $profileName = date('d-m-y-h-i-s').'_'.$profile->getClientOriginalName();
+        $path = 'images';
+        $profile->move($path, $profileName);
+
+        //insert is not have default value for timestamp
+        DB::table('students')->insert([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'gender' => $request->gender,
+            'course' => $request->course,
+            'phone' => $request->phone_number,
+            'profile' => $profileName,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+
+        return back()->with('success','created');
     }
 
     /**
@@ -41,9 +71,9 @@ class StudentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit()
     {
-        //
+        return view('students.edit');
     }
 
     /**
