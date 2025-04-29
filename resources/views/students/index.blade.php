@@ -28,8 +28,8 @@
                     <td>{{$student->phone}}</td>
                     <td>{!! $student->isActive?'<i class="bi bi-check-circle"></i>':'' !!}</td>
                     <td>
-                        <button class="btn btn-warning" data-action="show" data-modal-url="{{route('edit')}}"> Update </button>
-                        <a href="#" class="btn btn-danger"> Delete </a>
+                        <button class="btn btn-warning" data-action="show" data-modal-url="{{route('edit', ['id'=>$student->id])}}" data-title="Update Student"> Update </button>
+                        <button href="#" class="btn btn-danger" data-action="show" data-title="Remove Student" data-modal-url="{{route('delete', ['id'=>$student->id])}}"> Delete </button>
                     </td>
                 </tr>
             @endforeach

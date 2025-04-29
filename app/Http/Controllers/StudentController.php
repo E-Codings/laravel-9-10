@@ -71,9 +71,10 @@ class StudentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit()
+    public function edit($id)
     {
-        return view('students.edit');
+        $student = DB::table('students')->where('id', $id)->first();
+        return view('students.edit', compact('student'));
     }
 
     /**
@@ -82,6 +83,14 @@ class StudentController extends Controller
     public function update(Request $request, string $id)
     {
         //
+    }
+
+    /**
+     * open form delete
+     * @param $id, id specific resource
+     */
+    public function modalDelete($id){
+        return view('students.delete', compact('id'));
     }
 
     /**

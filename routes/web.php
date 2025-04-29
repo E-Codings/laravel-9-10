@@ -10,5 +10,6 @@ Route::controller(StudentController::class)->group(function () {
     Route::get('/', 'index');
     Route::post('/store-student', 'store')->name('store');
     Route::get('/create', 'create')->name('create');
-    Route::get('/edit', 'edit')->name('edit');
+    Route::get('/edit/{id}', 'edit')->name('edit');
+    Route::get('/delete/{id}', 'modalDelete')->name('delete');
 });

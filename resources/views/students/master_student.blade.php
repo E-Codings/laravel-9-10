@@ -31,7 +31,9 @@
             <div class="">
                 <h1 class="text-center">Student Management</h1>
                 <div class="d-flex justify-content-end">
-                    <button class="btn btn-primary" data-action="show" data-modal-url="{{route('create')}}">+
+                    <button class="btn btn-primary"
+                        data-action="show" data-modal-url="{{route('create')}}" data-title="Create Student"
+                    >+
                         Student</button>
                 </div>
             </div>
@@ -42,7 +44,14 @@
     <!-- Modal -->
     <div class="modal fade" id="commonModal" tabindex="-1" aria-labelledby="commonModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
         </div>
     </div>
 <script src="{{asset('js/custom.js')}}"></script>
