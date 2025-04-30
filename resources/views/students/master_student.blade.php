@@ -13,18 +13,27 @@
     </script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{{asset('js/custom.js')}}"></script>
 </head>
 
 <body>
-    <div class="toast show align-items-center position-absolute" style="right: 10px; top:10px" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast align-items-center position-absolute" style="right: 10px; top:10px" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="d-flex">
         <div class="toast-body">
-        <h5>Hello, world! This is a toast message.</h5>
+            <h5 class="toast-message text-light">Hello, world! This is a toast message.</h5>
         </div>
         <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
     </div>
     </div>
-    {{$errors}}
+    <input type="text" name="" id="error-text">
+
+    @if($errors->any())
+        {{$errors}}
+        <script>
+            $('#error-text').val("{{$errors}}")
+            console.log("{{$errors}}")
+        </script>
+    @endif
 
     <div class="col-6 mx-auto">
         <div class="bg-dark text-light px-4 py-2">
@@ -54,7 +63,6 @@
         </div>
         </div>
     </div>
-<script src="{{asset('js/custom.js')}}"></script>
 </body>
 
 </html>

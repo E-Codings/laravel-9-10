@@ -12,3 +12,16 @@ $(document).ready(function(){
         })
     })
 });
+function show_toast(type, message){
+    if(type === "Success"){
+        $('.toast').addClass('bg-success');
+    } else if(type === "Error"){
+        $('.toast').addClass('bg-danger');
+    }
+    $('.toast').addClass('show');
+    $('.toast-message').html(message);
+    setTimeout(function (){
+        $('.toast').removeClass('show');
+    }, 6000);
+
+}

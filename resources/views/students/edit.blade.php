@@ -1,6 +1,8 @@
-<form action="" method="post" enctype="multipart/form-data">
+<form action="{{route("update", $student->id)}}" method="post" enctype="multipart/form-data">
+    @method('PUT')
     @csrf
     <div class="row">
+        <input type="text" name="old_profile" value="{{$student->profile}}" id="" class="form-control">
         <div class="col-6 p-2">
             <label for="">First Name:</label>
             <input type="text" name="first_name" value="{{$student->first_name}}" id="" class="form-control"
@@ -27,9 +29,9 @@
         <div class="col-6 p-2">
             <label for="">Course:</label>
             <select name="course" id="" class="form-select">
-                <option value="JAVA" {{$student->course == "JAVA" ? 'checked' : ''}} >JAVA</option>
-                <option value="PHP" {{$student->course == "PHP" ? 'checked' : ''}}>PHP</option>
-                <option value="Python" {{$student->course == "Python" ? 'checked' : ''}}>Python</option>
+                <option value="JAVA" {{$student->course == "JAVA" ? 'selected' : ''}} >JAVA</option>
+                <option value="PHP" {{$student->course == "PHP" ? 'selected' : ''}}>PHP</option>
+                <option value="Python" {{$student->course == "Python" ? 'selected' : ''}}>Python</option>
             </select>
         </div>
         <div class="col-12 p-2">
@@ -46,6 +48,6 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-success">Create</button>
+        <button type="submit" class="btn btn-success">Update</button>
     </div>
 </form>

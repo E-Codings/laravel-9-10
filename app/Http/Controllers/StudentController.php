@@ -40,7 +40,7 @@ class StudentController extends Controller
         ]);
 
         $profile = $request->file('profile');
-        $profileName = date('d-m-y-h-i-s').'_'.$profile->getClientOriginalName();
+        $profileName = date('d-m-y-h-i-s') . '_' . $profile->getClientOriginalName();
         $path = 'images';
         $profile->move($path, $profileName);
 
@@ -57,7 +57,7 @@ class StudentController extends Controller
         ]);
 
 
-        return back()->with('success','created');
+        return back()->with('success', 'created');
     }
 
     /**
@@ -80,16 +80,45 @@ class StudentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $validate = $request->validate([
+            'first_name' => 'required|min:2|max:10',
+            'last_name' => 'required|min:2|max:10',
+            'gender' => 'required|min:4|max:6',
+            'course' => 'required',
+            'phone_number' => 'required',
+            'profile' => 'mimes:jpg,jpeg,png'
+        ]);
+
+        if ($request->hasFile('profile')) {
+            $profile = $request->file('profile');
+            $profileName = date('d-m-y-h-i-s') . '_' . $profile->getClientOriginalName();
+            $path = 'images';
+            $profile->move($path, $profileName);
+        } else {
+            $profileName = $request->old_profile;
+        }
+
+        DB::table('students')->where('id', $id)->update([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'gender' => $request->gender,
+            'course' => $request->course,
+            'phone' => $request->phone_number,
+            'profile' => $profileName,
+            'updated_at' => now(),
+        ]);
+
+        return back()->with('success', 'Student updated successfully');
     }
 
     /**
      * open form delete
-     * @param $id, id specific resource
+     * @param $id , id specific resource
      */
-    public function modalDelete($id){
+    public function modalDelete($id)
+    {
         return view('students.delete', compact('id'));
     }
 
