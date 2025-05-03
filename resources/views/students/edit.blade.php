@@ -2,7 +2,7 @@
     @method('PUT')
     @csrf
     <div class="row">
-        <input type="text" name="old_profile" value="{{$student->profile}}" id="" class="form-control">
+        <input type="hidden" name="old_profile" value="{{$student->profile}}" id="" class="form-control">
         <div class="col-6 p-2">
             <label for="">First Name:</label>
             <input type="text" name="first_name" value="{{$student->first_name}}" id="" class="form-control"

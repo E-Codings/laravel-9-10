@@ -25,13 +25,19 @@
         <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
     </div>
     </div>
-    <input type="text" name="" id="error-text">
 
     @if($errors->any())
-        {{$errors}}
         <script>
-            $('#error-text').val("{{$errors}}")
-            console.log("{{$errors}}")
+            const errors = @json($errors->all());
+            let message = errors.toString();
+            // console.log(message)
+            show_toast('Error', message)
+        </script>
+    @endif
+
+    @if(Session::has('success'))
+        <script>
+            show_toast('Success', "{{ Session::get('success') }}");
         </script>
     @endif
 

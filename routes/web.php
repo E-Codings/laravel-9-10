@@ -13,4 +13,5 @@ Route::controller(StudentController::class)->group(function () {
     Route::get('/edit/{id}', 'edit')->name('edit');
     Route::put('/update/{id}', 'update')->name('update');
     Route::get('/delete/{id}', 'modalDelete')->name('delete');
+    Route::delete('/destroy', 'destroy')->name('destroy');
 });

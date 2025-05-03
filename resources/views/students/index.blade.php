@@ -4,11 +4,6 @@
 @endsection
 
 @section('content')
-    @if(Session::has('success'))
-        <script>
-            show_toast('Success', "{{ Session::get('success') }}");
-        </script>
-    @endif
     <table class="table table-dark table-hover text-center">
         <thead>
             <tr>
