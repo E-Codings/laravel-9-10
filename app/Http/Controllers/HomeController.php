@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -15,50 +16,20 @@ class HomeController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * upload file that request from ajax
+     * @param $request, request file when submit
+     * @return string, file uploaded
      */
-    public function create()
-    {
-        //
-    }
+    public function uploadFile(Request $request){
+        $validated = $request->validate([
+            'profile' => 'required|file|image|mimes:jpeg,jpg,png|max:2048',
+        ]);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        $profile = $request->file('profile');
+        $profileName = date('dmy-H-i-s').'_'.$profile->getClientOriginalName();
+        $path = 'assets/images/teacher';
+        $profile->move($path, $profileName);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return response()->json($profileName);
     }
 }

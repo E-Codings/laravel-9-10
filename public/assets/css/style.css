@@ -26287,3 +26287,7 @@ dl li {
   flex-grow: 1;
 }
 /*# sourceMappingURL=maps/style.css.map */
+
+.form-control{
+    border: 1px solid grey;
+}
