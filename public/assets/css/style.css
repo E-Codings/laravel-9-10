@@ -17162,7 +17162,7 @@ textarea.is-invalid.tt-hint, .select2-container--default .select2-selection--sin
 
 .bg-success {
   --bs-bg-opacity: 1;
-  background-color: rgba(var(--bs-success-rgb), var(--bs-bg-opacity)) !important;
+  background-color:var(--bs-green) !important;
 }
 
 .bg-info {

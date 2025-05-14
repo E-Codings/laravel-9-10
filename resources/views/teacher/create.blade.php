@@ -18,8 +18,8 @@
 
 @section('content-body')
     <div class="card col-8 mx-auto bg-white p-3 rounded rounded-4">
-        <form action="" method="post" class="row" enctype="multipart/form-data">
-
+        <form action="{{route('store.user')}}" method="post" class="row" enctype="multipart/form-data">
+            @csrf
             <div class="col-6 my-2">
                 <label for="first_name">First Name: </label>
                 <input type="text" name="first_name" placeholder="First Name" class="form-control my-2 " id="">
@@ -32,24 +32,25 @@
                 <label for="gender">Gender: </label>
                 <div class="d-flex my-2">
                     <div class="me-2">
-                        <input type="radio" name="gender" id="male"> <label for="male">Male</label>
+                        <input type="radio" name="gender" id="male" value="Male"> <label for="male">Male</label>
                     </div>
                     <div class="me-2">
-                        <input type="radio" name="gender" id="female"> <label for="female">Female</label>
+                        <input type="radio" name="gender" id="female" value="Female"> <label for="female">Female</label>
                     </div>
                 </div>
             </div>
             <div class="col-6 my-2">
-                <label for="first_name">Email: </label>
-                <input type="text" name="first_name" placeholder="Email" class="form-control my-2 " id="">
+                <label for="email">Email: </label>
+                <input type="text" name="email" placeholder="Email" class="form-control my-2 " id="">
             </div>
             <div class="col-6 my-2">
-                <label for="first_name">Password: </label>
-                <input type="text" name="first_name" placeholder="Password" class="form-control my-2 " id="">
+                <label for="password">Password: </label>
+                <input type="text" name="password" placeholder="Password" class="form-control my-2 " id="">
             </div>
             <div class="col-6 my-2">
                 <label for="profile">Profile: </label>
                 <input type="file" name="profile" class="form-control my-2" id="profile">
+                <input type="hidden" name="profile_name" placeholder="Password" class="form-control my-2 " id="profile_name">
                 <div class="preview-profile border border-1 border-dark mt-2" style="width: fit-content; cursor: pointer;">
                     <img src="{{ asset('assets/images/Upload-Icon-Logo.png') }}" id="show-profile" alt="" style="width:120px">
                 </div>
@@ -91,6 +92,7 @@
                     success: function(response) {
                         console.log(response);
                         $('#show-profile').attr('src', '{{asset("assets/images/teacher/")}}'+"/"+response)
+                        $('#profile_name').val(response);
                     }
                 });
             })

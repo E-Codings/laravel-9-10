@@ -14,16 +14,16 @@ class User extends Authenticatable
 
     public const TABLE_NAME = 'users';
     public const ID = 'id';
-    public const FIRST_NAME = 'first_name';
-    public const LAST_NAME = 'last_name';
-    public const GENDER = 'gender';
-    public const PROFILE = 'profile';
-    public const EMAIL = 'email';
-    public const PASSWORD = 'password';
-    public const ROLE = 'role';
-    public const CREATED_BY = 'created_by';
-    public const CREATED_AT = 'created_at';
-    public const UPDATED_AT = 'created_at';
+    public const FIRST_NAME  = 'first_name';
+    public const LAST_NAME   = 'last_name';
+    public const GENDER      = 'gender';
+    public const PROFILE     = 'profile';
+    public const EMAIL       = 'email';
+    public const PASSWORD    = 'password';
+    public const ROLE        = 'role';
+    public const CREATED_BY  = 'created_by';
+    public const CREATED_AT  = 'created_at';
+    public const UPDATED_AT  = 'created_at';
 
 
     /**
@@ -32,9 +32,14 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        User::FIRST_NAME,
+        User::LAST_NAME,
+        User::GENDER,
+        User::PROFILE,
+        User::EMAIL,
+        User::PASSWORD,
+        User::ROLE,
+        User::CREATED_BY,
     ];
 
     /**

@@ -6,6 +6,7 @@
 /storage/*.key
 /storage/pail
 /vendor
+/public/assets/images/teacher
 .env
 .env.backup
 .env.production
