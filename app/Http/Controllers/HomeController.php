@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 
 class HomeController extends Controller
 {
@@ -31,5 +32,10 @@ class HomeController extends Controller
         $profile->move($path, $profileName);
 
         return response()->json($profileName);
+    }
+
+    public function migrate(){
+        Artisan::call("migrate");
+        return back()->with('Success', "All the new tables created");
     }
 }

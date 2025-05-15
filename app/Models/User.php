@@ -64,4 +64,8 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function fullName(){
+        return ($this->gender == "Male" ? "Mr. " : "Ms. ").$this->first_name." ".$this->last_name;
+    }
 }

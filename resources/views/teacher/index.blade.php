@@ -17,15 +17,33 @@
 @endsection
 
 @section('content-body')
-    <table class="table table-hover">
+    <table class="table table-hover table-light text-center">
         <thead>
             <tr>
-                <th>No</th>
+                <th>N<sup>o</sup></th>
                 <th>Profile</th>
                 <th>Full Name</th>
                 <th>Email</th>
                 <th>Action</th>
             </tr>
         </thead>
+        <tbody>
+            @foreach ($teachers as $index => $teacher)
+                <tr>
+                    <th>
+                        {{ $index + 1 }}
+                    </th>
+                    <th>
+                        <img src="{{ asset('assets/images/teacher/' . $teacher->profile) }}" alt="">
+                    </th>
+                    <th>{{ $teacher->fullName() }}</th>
+                    <th>{{ $teacher->email }}</th>
+                    <th>
+                        <button class="btn btn-warning"> {!! icon_edit() !!} Edit</button>
+                        <button class="btn btn-danger"> {!! icon_remove() !!}Remove</button>
+                    </th>
+                </tr>
+            @endforeach
+        </tbody>
     </table>
 @endsection

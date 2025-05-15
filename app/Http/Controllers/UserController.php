@@ -13,7 +13,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('teacher.index');
+        $teachers = User::all();
+        return view('teacher.index', compact('teachers'));
     }
 
     /**

@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index']);
 Route::post('/upload-file', [HomeController::class, 'uploadFile'])->name('uploadFile');
-
+Route::get('/migrate', [HomeController::class, 'migrate']);
 
 Route::controller(UserController::class)->group(function () {
     Route::get('/user/create', 'create')->name('create.user');
