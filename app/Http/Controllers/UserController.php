@@ -51,7 +51,7 @@ class UserController extends Controller
             User::PROFILE => $request->profile_name,
             User::EMAIL => $request->email,
             User::PASSWORD => $request->password,
-            User::ROLE => "teacher",
+            User::ROLE => 2,
             User::CREATED_BY => 1,
         ]);
 
