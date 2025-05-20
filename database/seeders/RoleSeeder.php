@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Role;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
 
 class RoleSeeder extends Seeder
 {
@@ -13,18 +13,10 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        $roles = [
-            [
-                Role::Name => "admin",
-                Role::CREATED_AT => now(),
-                Role::UPDATED_AT => now(),
-            ],
-            [
-                Role::Name => "employee",
-                Role::CREATED_AT => now(),
-                Role::UPDATED_AT => now(),
-            ]
-        ];
-        Role::insert($roles);
+        $admin = Role::firstOrCreate(['name'=>'admin']);
+        Role::firstOrCreate(['name'=>'employee']);
+
+        $admin->givePermissionTo();
+
     }
 }
