@@ -17,7 +17,7 @@
 @endsection
 
 @section('content-body')
-    <table class="table table-hover table-light text-center">
+    <table class="table table-hover table-light text-center" id="show-table">
         <thead>
             <tr>
                 <th>N<sup>o</sup></th>
@@ -30,18 +30,18 @@
         <tbody>
             @foreach ($teachers as $index => $teacher)
                 <tr>
-                    <th>
+                    <td>
                         {{ $index + 1 }}
-                    </th>
-                    <th>
+                    </td>
+                    <td>
                         <img src="{{ asset('assets/images/teacher/' . $teacher->profile) }}" alt="">
-                    </th>
-                    <th>{{ $teacher->fullName() }}</th>
-                    <th>{{ $teacher->email }}</th>
-                    <th>
-                        <button class="btn btn-warning"> {!! icon_edit() !!} Edit</button>
-                        <button class="btn btn-danger"> {!! icon_remove() !!}Remove</button>
-                    </th>
+                    </td>
+                    <td>{{ $teacher->fullName() }}</td>
+                    <td>{{ $teacher->email }}</td>
+                    <td>
+                        <a href="{{route('edit.user', $teacher->id)}}" class="btn btn-warning"> {!! icon_edit() !!} Edit</a>
+                        <button class="btn btn-danger" id="btn-remove" data-id="{{$teacher->id}}"> {!! icon_remove() !!}Remove</button>
+                    </td>
                 </tr>
             @endforeach
         </tbody>

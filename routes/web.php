@@ -12,7 +12,7 @@ Route::post('/login',[AuthenticationController::class, 'login'])->name('loginSub
 Route::middleware(['auth'])->group(function(){
 
     Route::post('/logout', [AuthenticationController::class, 'logout'])->name('logout');
-    
+
     Route::post('/upload-file', [HomeController::class, 'uploadFile'])->name('uploadFile');
     Route::get('/migrate', [HomeController::class, 'migrate']);
     Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -20,6 +20,9 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/user/create', 'create')->name('create.user');
         Route::post('/user/create', 'store')->name('store.user');
         Route::get('/user/index', 'index')->name('index.user');
+        Route::get('/user/update/{id}', 'edit')->name('edit.user');
+        Route::put('/user/update/{id}', 'update')->name('update.user');
+        Route::delete('/user/delete', 'destroy')->name('delete.user');
     });
 
 });

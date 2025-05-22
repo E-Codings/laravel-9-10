@@ -21,7 +21,6 @@ return new class extends Migration
                 $table->string(User::LAST_NAME);
                 $table->string(User::GENDER);
                 $table->string(User::PROFILE);
-                $table->string(User::ROLE);
                 $table->string(User::CREATED_BY);
             });
         }

@@ -15,7 +15,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
         integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="{{asset('assets/js/custom.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('assets/js/custom.js') }}"></script>
+
 </head>
 
 <body>
@@ -23,7 +25,8 @@
         <div id="liveToast" class="toast text-light" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header" style="background-color: unset; color:unset;">
                 <strong class="me-auto">Bootstrap</strong>
-                <button type="button" class="btn-close" style="color: white" data-bs-dismiss="toast" aria-label="Close"></button>
+                <button type="button" class="btn-close" style="color: white" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
             </div>
             <div class="toast-body">
                 Hello, world! This is a toast message.
@@ -60,7 +63,8 @@
                         <a class="nav-link dropdown-toggle" id="profileDropdown" href="#"
                             data-bs-toggle="dropdown" aria-expanded="false">
                             <div class="nav-profile-img">
-                                <img src="{{ asset('assets/images/teacher/'. Auth::user()->profile) }}" alt="image">
+                                <img src="{{ asset('assets/images/teacher/' . Auth::user()->profile) }}"
+                                    alt="image">
                                 <span class="availability-status online"></span>
                             </div>
                             <div class="nav-profile-text">
@@ -68,9 +72,10 @@
                             </div>
                         </a>
                         <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
-                            <form action="{{route('logout')}}" method="post">
+                            <form action="{{ route('logout') }}" method="post">
                                 @csrf
-                                <button class="btn"><i class="mdi mdi-logout me-2 text-primary"></i> Signout </button>
+                                <button class="btn"><i class="mdi mdi-logout me-2 text-primary"></i> Signout
+                                </button>
                             </form>
                         </div>
                     </li>
@@ -92,23 +97,25 @@
                             <i class="mdi mdi-home menu-icon"></i>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false"
-                            aria-controls="ui-basic">
-                            <span class="menu-title">Teacher</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="ui-basic">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('create.user') }}">Register Teacher</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('index.user') }}">View Teacher</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
+                    @can(['create users', 'edit users', 'remove users', 'view users'])
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false"
+                                aria-controls="ui-basic">
+                                <span class="menu-title">Teacher</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            <div class="collapse" id="ui-basic">
+                                <ul class="nav flex-column sub-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('create.user') }}">Register Teacher</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('index.user') }}">View Teacher</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    @endcan
                 </ul>
             </nav>
             <!-- partial -->
@@ -141,16 +148,133 @@
         </div>
     </div>
 
-    @stack('script-path')
 
-    <script src="{{asset('assets/vendors/js/vendor.bundle.base.js')}}"></script>
-    <script src="{{asset('assets/vendors/chart.js/chart.umd.js')}}"></script>
-    <script src="{{asset('assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
-    <script src="{{asset('assets/js/off-canvas.js')}}"></script>
-    <script src="{{asset('assets/js/misc.js')}}"></script>
-    <script src="{{asset('assets/js/settings.js')}}"></script>
-    <script src="{{asset('assets/js/todolist.js')}}"></script>
-    <script src="{{asset('assets/js/jquery.cookie.js')}}"></script>
-    <script src="{{asset('assets/js/dashboard.js')}}"></script>
-  </body>
+
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.preview-profile', function() {
+                $('#profile').click()
+            })
+            $(document).on('change', '#profile', function() {
+                var formData = new FormData();
+                // console.log( $('#profile'));
+                // console.log( $('#profile')[0]);
+                // console.log($('#profile')[0].files);
+                // console.log($('#profile')[0].files[0]);
+                var profile = $('#profile')[0].files[0];
+                formData.append('profile', profile)
+
+                $.ajax({
+                    // url: '/upload-file'
+                    url: "{{ route('uploadFile') }}",
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                    },
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    caches: false,
+                    success: function(response) {
+                        console.log(response);
+                        $('#show-profile').attr('src',
+                            '{{ asset('assets/images/teacher/') }}' + "/" + response)
+                        $('#profile_name').val(response);
+                    }
+                });
+            })
+
+            function fullName(first_name, last_name, gender){
+                return (gender == "Male" ? "Mr. " : "Ms. ")+first_name+" "+ last_name;
+            }
+
+            $(document).on('click', '#btn-remove', function() {
+
+                var id = $(this).data('id');
+                console.log(id);
+
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: "btn btn-success me-2",
+                        cancelButton: "btn btn-danger me-2"
+                    },
+                    buttonsStyling: false
+                });
+                swalWithBootstrapButtons.fire({
+                    title: "Are you sure?",
+                    text: "It will remove from database",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes",
+                    cancelButtonText: "No",
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        $.ajax({
+                            url: "{{ route('delete.user') }}",
+                            method: 'DELETE',
+                            data: {
+                                _token: "{{ csrf_token() }}",
+                                id
+                            },
+                            success: function(response) {
+                                if (response.status === 200) {
+                                    swalWithBootstrapButtons.fire({
+                                        title: "Deleted!",
+                                        text: response.message,
+                                        icon: "success"
+                                    });
+                                    let users = response.data;
+                                    let row = '';
+                                    users.forEach((user, index, array) => {
+                                        row += `
+                                            <tr>
+                                                 <td>
+                                                 ${index + 1}
+                                                </td>
+                                                <td>
+                                                    <img src="{{ asset('assets/images/teacher/${user.profile}') }}" alt="">
+                                                </td>
+                                                <td>${fullName(user.first_name, user.last_name, user.gender)}</td>
+                                                <td>${user.email}</td>
+                                                <td>
+                                                    <a href="/user/update/${user.id}" class="btn btn-warning"> {!! icon_edit() !!} Edit</a>
+                                                    <button class="btn btn-danger" id="btn-remove" data-id="${user.id}"> {!! icon_remove() !!}Remove</button>
+                                                </td>
+                                            </tr>
+                                        `;
+                                    });
+                                    console.log(row);
+
+                                    $('#show-table').find('tbody').html(row);
+
+                                } else {
+                                    swalWithBootstrapButtons.fire({
+                                        title: "Error",
+                                        text: response.message,
+                                        icon: "error"
+                                    });
+                                }
+                            }
+                        })
+
+
+                    }
+                });
+            })
+        })
+    </script>
+    @stack('script-path')
+    <script src="{{ asset('assets/vendors/js/vendor.bundle.base.js') }}"></script>
+    <script src="{{ asset('assets/vendors/chart.js/chart.umd.js') }}"></script>
+    <script src="{{ asset('assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
+    <script src="{{ asset('assets/js/off-canvas.js') }}"></script>
+    <script src="{{ asset('assets/js/misc.js') }}"></script>
+    <script src="{{ asset('assets/js/settings.js') }}"></script>
+    <script src="{{ asset('assets/js/todolist.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery.cookie.js') }}"></script>
+    <script src="{{ asset('assets/js/dashboard.js') }}"></script>
+</body>
+
 </html>

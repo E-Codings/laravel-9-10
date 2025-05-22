@@ -21,7 +21,6 @@ class User extends Authenticatable
     public const PROFILE     = 'profile';
     public const EMAIL       = 'email';
     public const PASSWORD    = 'password';
-    public const ROLE        = 'role';
     public const CREATED_BY  = 'created_by';
     public const CREATED_AT  = 'created_at';
     public const UPDATED_AT  = 'created_at';
@@ -39,7 +38,6 @@ class User extends Authenticatable
         User::PROFILE,
         User::EMAIL,
         User::PASSWORD,
-        User::ROLE,
         User::CREATED_BY,
     ];
 

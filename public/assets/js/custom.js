@@ -12,4 +12,8 @@ function show_toast(title, message){
     $('.toast').addClass(color)
     $('.toast-header strong').text(title);
     $('.toast-body').text(message)
+
+    setTimeout(function(){
+        $('.toast').removeClass('show');
+    },3000);
 }
