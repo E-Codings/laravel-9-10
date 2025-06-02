@@ -8,16 +8,31 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 
+use function Laravel\Prompts\search;
+
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         if (Auth::user()->hasPermissionTo('view users')) {
-            $teachers = User::all();
-            return view('teacher.index', compact('teachers'));
+            $search = $request->search;
+            $page = $request->page;
+            $total = ($page-1)*5;
+            if ($search) {
+                $teachers = User::where(User::FIRST_NAME, 'like', '%' . $search . '%')
+                ->orWhere(User::LAST_NAME, 'like', '%' . $search . '%')
+                ->offset($total)
+                ->limit(5)
+                ->get();
+            } else {
+                $teachers = User::offset($total)->limit(5)->get();
+            }
+
+            $total_pages = ceil(User::count(User::ID) / 5);
+            return view('teacher.index', compact('teachers', 'total_pages'));
         } else {
             // abort(401);
             return back()->with('Error', "Permission denied");
@@ -129,7 +144,7 @@ class UserController extends Controller
         if ($user) {
             User::where('id', $request->id)->delete();
             $users = User::get();
-            return response()->json(["message" => "Teacher remove success", "status" => 200, 'data'=> $users]);
+            return response()->json(["message" => "Teacher remove success", "status" => 200, 'data' => $users]);
         } else {
             return response()->json(["message" => "Teacher not found", "status" => 404]);
         }

@@ -53,7 +53,7 @@
                 </div>
             </div>
             <div class="col-12 my-2 d-flex justify-content-end">
-                <button class="btn btn-secondary me-2">Back</button>
+                <a href="{{route("index.user")}}" class="btn btn-secondary me-2">Back</a>
                 <button class="btn btn-primary me-2">Save</button>
             </div>
 
