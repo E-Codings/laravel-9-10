@@ -20,18 +20,23 @@ class UserController extends Controller
         if (Auth::user()->hasPermissionTo('view users')) {
             $search = $request->search;
             $page = $request->page;
-            $total = ($page-1)*5;
+            $total = ($page - 1) * 5;
             if ($search) {
                 $teachers = User::where(User::FIRST_NAME, 'like', '%' . $search . '%')
-                ->orWhere(User::LAST_NAME, 'like', '%' . $search . '%')
-                ->offset($total)
-                ->limit(5)
-                ->get();
+                    ->orWhere(User::LAST_NAME, 'like', '%' . $search . '%')
+                    ->offset($total)
+                    ->limit(5)
+                    ->get();
+                $total_pages = User::where(User::FIRST_NAME, 'like', '%' . $search . '%')
+                    ->orWhere(User::LAST_NAME, 'like', '%' . $search . '%')
+                    ->count(User::ID);
+
+                $total_pages = ceil($total_pages /  5);
             } else {
+                $total_pages = ceil(User::count(User::ID) / 5);
                 $teachers = User::offset($total)->limit(5)->get();
             }
 
-            $total_pages = ceil(User::count(User::ID) / 5);
             return view('teacher.index', compact('teachers', 'total_pages'));
         } else {
             // abort(401);
@@ -143,8 +148,31 @@ class UserController extends Controller
         $user = User::find($request->id);
         if ($user) {
             User::where('id', $request->id)->delete();
-            $users = User::get();
-            return response()->json(["message" => "Teacher remove success", "status" => 200, 'data' => $users]);
+            $search = $request->search;
+            $page = $request->page;
+            $total = ($page - 1) * 5;
+            if ($search) {
+                $teachers = User::where(User::FIRST_NAME, 'like', '%' . $search . '%')
+                    ->orWhere(User::LAST_NAME, 'like', '%' . $search . '%')
+                    ->offset($total)
+                    ->limit(5)
+                    ->get();
+                $total_pages = User::where(User::FIRST_NAME, 'like', '%' . $search . '%')
+                    ->orWhere(User::LAST_NAME, 'like', '%' . $search . '%')
+                    ->count(User::ID);
+
+                $total_pages = ceil($total_pages /  5);
+            } else {
+                $total_pages = ceil(User::count(User::ID) / 5);
+                $teachers = User::offset($total)->limit(5)->get();
+            }
+
+            return response()->json(
+                [
+                    "message" => "Teacher remove success",
+                    "status" => 200, 'data' => $teachers,
+                    'total_page' => $total_pages
+                ]);
         } else {
             return response()->json(["message" => "Teacher not found", "status" => 404]);
         }
