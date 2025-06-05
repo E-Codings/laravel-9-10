@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -23,6 +24,15 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/user/update/{id}', 'edit')->name('edit.user');
         Route::put('/user/update/{id}', 'update')->name('update.user');
         Route::delete('/user/delete', 'destroy')->name('delete.user');
+    });
+
+    Route::controller(CourseController::class)->group(function(){
+        Route::get('/cource/create', 'create')->name('create.cource');
+        Route::post('/cource/create', 'store')->name('store.cource');
+        Route::get('/cource/index', 'index')->name('index.cource');
+        Route::get('/cource/update/{id}', 'edit')->name('edit.cource');
+        Route::put('/cource/update/{id}', 'update')->name('update.cource');
+        Route::delete('/cource/delete', 'destroy')->name('delete.cource');
     });
 
 });

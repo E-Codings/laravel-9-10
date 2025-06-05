@@ -116,6 +116,15 @@
                             </div>
                         </li>
                     @endcan
+                     @can(['create users', 'edit users', 'remove users', 'view users'])
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('index.cource')}}" aria-expanded="false"
+                                aria-controls="ui-basic">
+                                <span class="menu-title">Cources</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                        </li>
+                    @endcan
                 </ul>
             </nav>
             <!-- partial -->
@@ -144,6 +153,27 @@
                             with <i class="mdi mdi-heart text-danger"></i></span>
                     </div>
                 </footer>
+            </div>
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-primary d-none" id="btn-show-modal" data-bs-toggle="modal" data-bs-target="#exampleModal"></button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
             </div>
         </div>
     </div>
@@ -180,6 +210,21 @@
                         $('#show-profile').attr('src',
                             '{{ asset('assets/images/teacher/') }}' + "/" + response)
                         $('#profile_name').val(response);
+                    }
+                });
+            })
+
+            $(document).on('click', '#btn-open-create', function(){
+                let tittle = $(this).data('modal-title');
+                let url = $(this).data('url');
+                $('#btn-show-modal').click();
+                $('.modal-title').text(tittle);
+
+                $.ajax({
+                    url,
+                    method: 'get',
+                    success: function(response) {
+                        $('.modal-body').html(response)
                     }
                 });
             })
