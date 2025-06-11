@@ -26289,5 +26289,9 @@ dl li {
 /*# sourceMappingURL=maps/style.css.map */
 
 .form-control{
-    border: 1px solid grey;
+    color: black !important;
+}
+
+#exampleModal .modal-dialog{
+    max-width: 700px !important;
 }

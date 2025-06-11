@@ -2,17 +2,43 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Course;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use PHPUnit\Framework\Constraint\Count;
 
 class CourseController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('cource.index');
+        $search = $request->search;
+        $page = $request->page;
+        $total = ($page - 1) * 5;
+        if ($search) {
+
+            $courses = Course::orderBy('id', 'desc')
+                ->where(Course::TITLE, 'like' ,'%'.$search.'%')
+                ->offset($total)
+                ->limit(5)
+                ->get();
+            $total_pages = Course::orderBy('id', 'desc')
+                ->where(Course::TITLE, 'like' ,'%'.$search.'%')
+                ->count(Course::ID);
+
+            $total_pages = ceil($total_pages /  5);
+        } else {
+            $total_pages = ceil(Course::count(Course::ID) / 5);
+            $courses =Course::orderBy('id', 'desc')
+                ->offset($total)
+                ->limit(5)
+                ->get();;
+        }
+
+        return view('course.index', compact('courses', 'total_pages'));
     }
 
     /**
@@ -20,7 +46,8 @@ class CourseController extends Controller
      */
     public function create()
     {
-        return view('cource.create');
+        $teachers = User::get(['id', 'first_name', 'last_name', 'gender'])->all();
+        return view('course.create', compact('teachers'));
     }
 
     /**
@@ -28,7 +55,28 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         $validator = Validator::make($request->all(), [
+            'title' => 'required|max:255',
+            'price' => 'required',
+            'start_date' => 'required',
+            'teacher_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->messages();
+            $messsage = implode(", ", $errors->all());
+            return back()->with("Error", $messsage);
+        }
+
+        Course::create([
+            Course::TITLE => $request->title,
+            Course::PRICE => $request->price,
+            Course::START_DATE => $request->start_date,
+            Course::END_DATE => $request->end_date,
+            Course::USER_ID => $request->teacher_id,
+            Course::DESCRIPTION => $request->description
+        ]);
+        return back()->with('Success', 'course Created');
     }
 
     /**
@@ -42,24 +90,58 @@ class CourseController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Course $course)
+    public function edit($id)
     {
-        //
+        $teachers = User::get(['id', 'first_name', 'last_name', 'gender'])->all();
+        $course = Course::find($id);
+        return view('course.update', compact('teachers','course'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Course $course)
+    public function update(Request $request, $id)
     {
-        //
+        $course = Course::find($id);
+        if($course){
+                $validator = Validator::make($request->all(), [
+                'title' => 'required|max:255',
+                'price' => 'required',
+                'start_date' => 'required',
+                'teacher_id' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                $errors = $validator->messages();
+                $messsage = implode(", ", $errors->all());
+                return back()->with("Error", $messsage);
+            }
+
+            Course::where(Course::ID, $id)->update([
+                Course::TITLE => $request->title,
+                Course::PRICE => $request->price,
+                Course::START_DATE => $request->start_date,
+                Course::END_DATE => $request->end_date,
+                Course::USER_ID => $request->teacher_id,
+                Course::DESCRIPTION => $request->description
+            ]);
+            return redirect()->route('index.course')->with('Success', 'course Updated');
+        }else{
+            return redirect()->route('index.course')->with('Error', 'course not found');
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Course $course)
+    public function destroy(Request $request)
     {
-        //
+        $course = Course::find($request->remove_id);
+        if($course){
+            Course::where(Course::ID, $request->remove_id)->delete();
+            return redirect()->back()->with('Success', 'course Deleted');
+        }else{
+            return redirect()->back()->with('Error', 'course not found');
+        }
     }
 }

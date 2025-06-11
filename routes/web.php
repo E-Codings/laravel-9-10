@@ -27,12 +27,12 @@ Route::middleware(['auth'])->group(function(){
     });
 
     Route::controller(CourseController::class)->group(function(){
-        Route::get('/cource/create', 'create')->name('create.cource');
-        Route::post('/cource/create', 'store')->name('store.cource');
-        Route::get('/cource/index', 'index')->name('index.cource');
-        Route::get('/cource/update/{id}', 'edit')->name('edit.cource');
-        Route::put('/cource/update/{id}', 'update')->name('update.cource');
-        Route::delete('/cource/delete', 'destroy')->name('delete.cource');
+        Route::get('/course/create', 'create')->name('create.course');
+        Route::post('/course/create', 'store')->name('store.course');
+        Route::get('/course/index', 'index')->name('index.course');
+        Route::get('/course/update/{id}', 'edit')->name('edit.course');
+        Route::put('/course/update/{id}', 'update')->name('update.course');
+        Route::delete('/course/delete', 'destroy')->name('delete.course');
     });
 
 });

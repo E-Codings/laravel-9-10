@@ -73,39 +73,6 @@
 @endsection
 @push('script-path')
     <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const search = urlParams.get('search');
-        if (search) {
-            $('#search_txt').val(search);
-        }
-
-        const page = urlParams.get('page');
-        if (page) {
-            let btnPage = $('.btn-page');
-            // console.log(btnPage);
-
-            btnPage.each((index, element) => {
-                // console.log($(element).data('page-number'));
-                if ($(element).data('page-number') == page) {
-                    // console.log(element);
-                    $(element).removeClass('btn-secondary')
-                    $(element).addClass('btn-primary')
-                }
-            });
-
-        }
-
-        $(document).on('click', '#btn-page', function() {
-            let pageNumber = $(this).data('page-number')
-            let url = "{{ route('index.user') }}";
-            if (search) {
-                url = url + "?search=" + search
-            }
-
-            var fullUrl = new URL(url);
-            fullUrl.searchParams.append('page', pageNumber)
-            window.location.href = fullUrl;
-        })
 
         function fullName(first_name, last_name, gender) {
             return (gender == "Male" ? "Mr. " : "Ms. ") + first_name + " " + last_name;

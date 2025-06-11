@@ -118,9 +118,9 @@
                     @endcan
                      @can(['create users', 'edit users', 'remove users', 'view users'])
                         <li class="nav-item">
-                            <a class="nav-link" href="{{route('index.cource')}}" aria-expanded="false"
+                            <a class="nav-link" href="{{route('index.course')}}" aria-expanded="false"
                                 aria-controls="ui-basic">
-                                <span class="menu-title">Cources</span>
+                                <span class="menu-title">courses</span>
                                 <i class="menu-arrow"></i>
                             </a>
                         </li>
@@ -170,10 +170,6 @@
             <div class="modal-body">
 
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
             </div>
         </div>
     </div>
@@ -182,6 +178,43 @@
 
     <script>
         $(document).ready(function() {
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const search = urlParams.get('search');
+        if (search) {
+            $('#search_txt').val(search);
+        }
+
+        const page = urlParams.get('page');
+        if (page) {
+            let btnPage = $('.btn-page');
+            // console.log(btnPage);
+
+            btnPage.each((index, element) => {
+                // console.log($(element).data('page-number'));
+                if ($(element).data('page-number') == page) {
+                    // console.log(element);
+                    $(element).removeClass('btn-secondary')
+                    $(element).addClass('btn-primary')
+                }
+            });
+
+        }
+
+        $(document).on('click', '#btn-page', function() {
+            let pageNumber = $(this).data('page-number')
+            let url = window.location.origin + window.location.pathname;
+            console.log(url);
+
+            if (search) {
+                url = url + "?search=" + search
+            }
+
+            var fullUrl = new URL(url);
+            fullUrl.searchParams.append('page', pageNumber)
+            window.location.href = fullUrl;
+        })
+
             $(document).on('click', '.preview-profile', function() {
                 $('#profile').click()
             })
@@ -225,6 +258,9 @@
                     method: 'get',
                     success: function(response) {
                         $('.modal-body').html(response)
+                    },error:function(){
+                        console.log("Error");
+
                     }
                 });
             })
