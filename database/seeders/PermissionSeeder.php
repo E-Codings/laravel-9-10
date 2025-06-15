@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Constants\PermissionConstant;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 
@@ -13,9 +13,16 @@ class PermissionSeeder extends Seeder
      */
     public function run(): void
     {
-        Permission::create(['name'=> 'view users']);
-        Permission::create(['name'=> 'create users']);
-        Permission::create(['name'=> 'edit users']);
-        Permission::create(['name'=> 'remove users']);
+        // user
+        Permission::firstOrCreate(['name'=> 'view users']);
+        Permission::firstOrCreate(['name'=> 'create users']);
+        Permission::firstOrCreate(['name'=> 'edit users']);
+        Permission::firstOrCreate(['name'=> 'remove users']);
+
+        // course
+        Permission::firstOrCreate(['name'=> PermissionConstant::VIEW_COURSE]);
+        Permission::firstOrCreate(['name'=> PermissionConstant::CREATE_COURSE]);
+        Permission::firstOrCreate(['name'=> PermissionConstant::EDIT_COURSE]);
+        Permission::firstOrCreate(['name'=> PermissionConstant::REMOVE_COURSE]);
     }
 }

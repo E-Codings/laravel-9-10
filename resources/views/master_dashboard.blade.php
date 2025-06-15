@@ -107,18 +107,18 @@
                             <div class="collapse" id="ui-basic">
                                 <ul class="nav flex-column sub-menu">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('create.user') }}">Register Teacher</a>
+                                        <a class="nav-link {{ request()->routeIs('user') ? 'active' : '' }}" href="{{ route('create.user') }}">Register Teacher</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('index.user') }}">View Teacher</a>
+                                        <a class="nav-link {{request()->routeIs('index.user') ? '123active' : '' }}" href="{{ route('index.user') }}">View Teacher</a>
                                     </li>
                                 </ul>
                             </div>
                         </li>
                     @endcan
-                     @can(['create users', 'edit users', 'remove users', 'view users'])
+                     @can(['edit course', 'view course'])
                         <li class="nav-item">
-                            <a class="nav-link" href="{{route('index.course')}}" aria-expanded="false"
+                            <a class="nav-link {{request()->routeIs('index.course') ? 'active' : '' }}" href="{{route('index.course')}}" aria-expanded="false"
                                 aria-controls="ui-basic">
                                 <span class="menu-title">courses</span>
                                 <i class="menu-arrow"></i>
